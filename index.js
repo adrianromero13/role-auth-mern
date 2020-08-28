@@ -11,27 +11,32 @@ const { DB, PORT } = require('./config');
 // initialize app
 const app = express();
 
-const startApp = () => {
+// set up middlewares
+app.use(cors());
+app.use(bp.json()); // with body-parser
+
+const startApp = async () => {
   // create connection with db
-  connect(DB, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: true,
-  }).then(() => success({
-    message: `Successfully connected with the Database \n${DB}`,
-    badge: true,
-  })
-  ).catch((err) => error({
-    message: `Unable to connect with the Database \n${err}`,
-    badge: true
-  })
-  );
-  
-  app.listen(PORT, () =>
-    success({ message: `Server started on PORT ${PORT}`, badge: true })
-  );
-}
+  try {
+    await connect(DB, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: true,
+    })
+    success({
+      message: `Successfully connected with the Database \n${DB}`,
+      badge: true,
+    })
+    // start listening for server on port
+    app.listen(PORT, () =>
+      success({ message: `Server started on PORT ${PORT}`, badge: true })
+    );
+
+  } catch (err) {
+    error({
+      message: `Unable to connect with the Database \n${err}`,
+      badge: true
+    })
+  }
+};
 startApp();
-
-
-
