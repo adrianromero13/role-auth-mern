@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 const { SECRET } = require('../config');
 
@@ -93,7 +94,7 @@ const userLogin = async (userCreds, role, res) => {
     };
 
     return res.status(200).json({
-      ... result,
+      ...result,
       message: 'You successfully logged in',
       success: true,
     });
@@ -109,8 +110,13 @@ const userLogin = async (userCreds, role, res) => {
 const validateUsername = async (username) => {
   let user = await User.findOne({ username });
   return user ? false : true;
-
 };
+
+/**
+ * @DESC Passport middleware
+ */
+const userAuth = passport.authenticate('jwt', { session: false });
+
 const validateEmail = async (email) => {
   let user = await User.findOne({ email });
   return user ? false : true;
@@ -120,4 +126,5 @@ const validateEmail = async (email) => {
 module.exports = {
   userRegister,
   userLogin,
+  userAuth,
 };

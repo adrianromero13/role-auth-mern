@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 // Bring in the User Regisration function
-const { userRegister, userLogin } = require('../utils/Auth');
+const { userRegister, userLogin, userAuth } = require('../utils/Auth');
 
 // users registration route
 router.post('/register-user', async (req, res) => {
@@ -34,18 +34,21 @@ router.post('/login-superadmin', async (req, res) => {
 
 
 // profile route
-router.get('profile', async (req, res) => { });
+router.get('profile', async (req, res) => { 
 
+    return res.json('hello');
+});
+     
 // users Protected route
-router.post('/user-protected', async (req, res) => {
+router.post('/user-protected', userAuth, async (req, res) => {
 
 });
 // admin Protected route
-router.post('/admin-protected', async (req, res) => {
+router.post('/admin-protected', userAuth, async (req, res) => {
 
 });
 // superadmin Protected route
-router.post('/superadmin-protected', async (req, res) => {
+router.post('/superadmin-protected', userAuth, async (req, res) => {
 
 });
 module.exports = router;
