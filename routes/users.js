@@ -47,14 +47,20 @@ router.get('profile', async (req, res) => {
      
 // users Protected route
 router.get('/user-protected', userAuth, checkRole(['user']),async (req, res) => {
+    return res.json('Hello user');
 
 });
+
 // admin Protected route
 router.get('/admin-protected', userAuth, checkRole(['admin']), async (req, res) => {
+    return res.json('Hello admin');
 
 });
+
 // superadmin Protected route
 router.get('/superadmin-protected', userAuth, checkRole(['superadmin']), async (req, res) => {
+    return res.json('Hello superadmin');
 
 });
+
 module.exports = router;
