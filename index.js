@@ -14,6 +14,8 @@ const app = express();
 // set up middlewares
 app.use(cors());
 app.use(bp.json()); // with body-parser
+// user router middleware
+app.use('/api/users', require('./routes/users'));
 
 const startApp = async () => {
   // create connection with db

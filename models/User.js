@@ -6,12 +6,25 @@ const UserSchema = new Schema({
     required: true,
   },
   email: {
-    type:String,
+    type: String,
     required: true,
   },
   role: {
     type: String,
     default: 'user',
     enum: ['user', 'admin', 'superadmin']
-  }
-}, { timestamps: true });
+  },
+  username: {
+    type: String,
+    required: true,
+
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+},
+  { timestamps: true }
+);
+
+module.exports = model('users', UserSchema);
