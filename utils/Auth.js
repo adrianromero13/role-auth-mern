@@ -117,14 +117,48 @@ const validateUsername = async (username) => {
  */
 const userAuth = passport.authenticate('jwt', { session: false });
 
+/**
+ * @DESC Check Role Middleware
+ */
+// big money
+// const checkRole = roles => (req, res, next) => {
+//   if(roles.includes(req.user.role)){
+//    return next()
+//   }
+//   return res.status(401).json({
+//     message: 'Unauthorized',
+//     success: false,
+//   });
+// }
+
+// same thing as ^
+const checkRole = roles => (req, res, next) =>
+  !roles.includes(req.user.role)
+    ? res.status(401).json('Unauthorized')
+    : next();
+
 const validateEmail = async (email) => {
   let user = await User.findOne({ email });
   return user ? false : true;
 
 };
 
+// password  still showing in json
+const serializeUser = user => {
+  return {
+    username: user.username,
+    email: user.email,
+    _id: user._id,
+    name: user.name,
+    updatedAt: user.updatedAt,
+    createdAt: user.createdAt,
+  };
+};
+
 module.exports = {
   userRegister,
   userLogin,
+  checkRole,
   userAuth,
+  serializeUser,
 };
