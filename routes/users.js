@@ -10,12 +10,12 @@ router.post('/register-user', async (req, res) => {
 });
 // admin registration route
 router.post('/register-admin', async (req, res) => {
-
+    await userRegister(req.body, 'admin', res);
 });
 
 // superadmin registration route
 router.post('/register-superadmin', async (req, res) => {
-
+    await userRegister(req.body, 'superadmin', res);
 });
 
 
