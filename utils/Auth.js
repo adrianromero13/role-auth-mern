@@ -49,6 +49,10 @@ const userRegister = async (userDets, role, res) => {
   }
 };
 
+/**
+ * @DESC To login the user (ADMIN, SUPER_ADMIN, USER)
+ */
+
 const userLogin = async (userCreds, role, res) => {
   let { username, password } = userCreds;
   // First Check if the username is in the database
@@ -84,7 +88,7 @@ const userLogin = async (userCreds, role, res) => {
       username: user.username,
       role: user.role,
       email: user.email,
-      token,
+      token: `Bearer ${token}`,
       expiresIn: 168
     };
 
